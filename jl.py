@@ -25,7 +25,6 @@ class JL():
         
         matrix_pi = np.random.choice([1, -1], size=(self.pi_rows, len(vector)))
         matrix_pi = matrix_pi * (1 / np.sqrt(self.pi_rows))
-        print(matrix_pi.shape)
 
         # Compute the sketch values by taking dot product with the vector
         sk_values = matrix_pi.dot(vector)

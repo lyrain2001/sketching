@@ -29,7 +29,6 @@ class PSSketch():
         i = 0
         j = 0
         while i < len(self.sk_indices) and j < len(other.sk_indices):
-            print(f"i: {i}\nj: {j}")
             ka, va = self.sk_indices[i], self.sk_values[i]
             kb, vb = other.sk_indices[j], other.sk_values[j]
             if ka == kb:
@@ -70,7 +69,6 @@ class PrioritySampling():
         if len(non_zero_rank) > self.sketch_size:
             tau = non_zero_rank[self.sketch_size]  # m is 1 less than (m + 1) due to 0-based indexing.
         
-        print(tau)  # Output tau_a
         sk_indices = []
         sk_values = []
         
@@ -88,16 +86,10 @@ if __name__ == "__main__":
     vector_a = np.random.rand(vector_length)
     vector_b = np.random.rand(vector_length)
     
-    print(f"vector_a: {vector_a}")
-    print(f"vector_b: {vector_b}")
-    
     ps = PrioritySampling(sketch_size=1000)
 
     sketch_a = ps.sketch(vector_a)
     sketch_b = ps.sketch(vector_b)
-    
-    # print(sketch_a.sk_values)
-    # print(sketch_b.sk_values)
 
     inner_product = vector_a.dot(vector_b)
     inner_product_sketch = sketch_a.inner_product(sketch_b)

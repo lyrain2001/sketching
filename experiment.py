@@ -1,5 +1,7 @@
 import argparse
 import numpy as np
+import time
+import csv
 
 try:
     from .data_generator import *
@@ -15,65 +17,89 @@ except ImportError:
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", 
+    parser.add_argument("-overlap", "--overlap", default=0.1,
         help="overlap ratio of 2 vectors", type=float)
-    parser.add_argument("-outlier", "--outlier", 
+    parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)
-    parser.add_argument("-zeroes", "--zeroes",
+    parser.add_argument("-zeroes", "--zeroes", default=0.2,
         help="zero ratio of the vector", type=float)
     parser.add_argument("-sketch_methods", "--sketch_methods",
         help="sketch methods to run", type=str)
-    parser.add_argument("-vector_size", "--vector_size",
+    parser.add_argument("-vector_size", "--vector_size", default=10000,
         help="original vector size", type=int)
-    parser.add_argument("-skech_size", "--skech_size",
+    parser.add_argument("-sketch_size", "--sketch_size", default=100,
         help="expected sketch size", type=int)
-    parser.add_argument("-log_name", "--log_name", 
-        help="log name of the run", type=str)
+    parser.add_argument("-iterations", "--iterations", default=1,
+        help="number of iterations", type=int)
+    parser.add_argument("-log", "--log", default=False,
+        help="log the result", type=bool)
     args = parser.parse_args()
-    # Check if the required parameter is present
-    assert args.log_name is not None, "log_name is missing"
     assert args.sketch_methods is not None, "sketch_methods is missing"
     return args
 
-def vars_from_args(args):
-    overlap_ratio = args.overlap or 0.1
-    outlier_ratio = args.outlier or 0.1
-    zeroes_ratio = args.zeroes or 0.1
-    sketch_methods = args.sketch_methods.split("+")
-    vector_size = args.vector_size or 1000
-    sketch_size = args.skech_size or 100 
-    log_name = args.log_name
-    print("overlap_ratio:", overlap_ratio)
-    print("outlier_ratio:", outlier_ratio)
-    print("zeroes_ratio:", zeroes_ratio)
-    print("sketch_methods", sketch_methods)
-    print("vector_size:", vector_size)
-    print("sketch_size:", sketch_size)
-    print("log_name:", log_name)
-    return overlap_ratio,outlier_ratio,zeroes_ratio,sketch_methods,vector_size,sketch_size,log_name
-
 if __name__ == "__main__":
     args = args_from_parser()
-    overlap_ratio,outlier_ratio,zeroes_ratio,sketch_methods,vector_size,sketch_size,log_name = vars_from_args(args)
+    overlap_ratio, outlier_ratio, zeroes_ratio, sketch_methods, vector_size, sketch_size, iterations, log = args.overlap, args.outlier, args.zeroes, args.sketch_methods, args.vector_size, args.sketch_size, args.iterations, args.log
     # Initialize the data generator
     generator = DataGenerator(vector_size, zeroes_ratio, overlap_ratio, outlier_ratio)
-    vector_a, vector_b = generator.generate_pair()
-    # print("vector_a:", vector_a)
-    # print("vector_b:", vector_b)
-    # generate condition for different sketch methods
-    if sketch_methods == "simHash":
-        sketch_a = SimHash(sketch_size).sketch(vector_a)
-        sketch_b = SimHash(sketch_size).sketch(vector_b)
-    elif sketch_methods == "prioritySampling":
-        sketch_a = PrioritySampling(sketch_size).sketch(vector_a)
-        sketch_b = PrioritySampling(sketch_size).sketch(vector_b)
-    elif sketch_methods == "JL":
-        sketch_a = JL(sketch_size).sketch(vector_a)
-        sketch_b = JL(sketch_size).sketch(vector_b)
+    errors = []
+    time_start = time.time()
+    for i in range(iterations):
+        vector_a, vector_b = generator.generate_pair()
+        seed = 1
+        # print("vector_a:", vector_a)
+        # print("vector_b:", vector_b)
+        # generate condition for different sketch methods
+        if sketch_methods == "SimHash":
+            sh = SimHash(sketch_size, seed)
+            sketch_a = sh.sketch(vector_a)
+            sketch_b = sh.sketch(vector_b)
+        elif sketch_methods == "PrioritySampling":
+            ps = PrioritySampling(sketch_size)
+            sketch_a = ps.sketch(vector_a)
+            sketch_b = ps.sketch(vector_b)
+        elif sketch_methods == "JL":
+            jl = JL(sketch_size, seed)
+            sketch_a = jl.sketch(vector_a)
+            sketch_b = jl.sketch(vector_b)
+        else:
+            raise ValueError("sketch_methods is not valid")
+        
+        inner_product = vector_a.dot(vector_b)
+        inner_product_sketch = sketch_a.inner_product(sketch_b)
+        error = np.abs(inner_product - inner_product_sketch) / inner_product
+        errors.append(error)
+        # Print the results
+        # print("Inner product of the vector with itself: {}".format(inner_product))
+        # print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
+        # print("Relative error: {}".format(np.abs(inner_product - inner_product_sketch) / inner_product))
+    time_end = time.time()
     
-    inner_product = vector_a.dot(vector_b)
-    inner_product_sketch = sketch_a.inner_product(sketch_b)
-    # Print the results
-    print("Inner product of the vector with itself: {}".format(inner_product))
-    print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
-    print("Relative error: {}".format(np.abs(inner_product - inner_product_sketch) / inner_product))
+    if log:
+        # log name = sketch method + vector size + sketch size + overlap ratio + outlier ratio + zero ratio
+        # log_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(sketch_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".log"
+        # with open(log_name, "a") as f:
+        #     # f only writes string
+        #     # change np.mean(errors) to str(np.mean(errors))
+        #     f.write(str(np.mean(errors)) + "\n")
+        #     f.write(str(np.std(errors)) + "\n")
+        #     f.write(str(time_end - time_start) + "\n")
+        
+        # Writing to csv file 
+        # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
+        csv_name = "./results/" + sketch_methods + ".csv"
+        
+        with open(csv_name, 'a', newline='') as csvfile:
+            csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
+            csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start})
+        
+        # with open(csv_name, 'w', newline='') as csvfile:
+        #     fieldnames = ['sketch_size', 'mean', 'std', 'time']
+        #     csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        #     csvwriter.writeheader()
+        #     csvwriter.writerows([{"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start}])
+    
+    print("Average relative error: {}".format(np.mean(errors)))
+    print("Standard deviation of relative error: {}".format(np.std(errors)))
+    print("Time elapsed: {}".format(time_end - time_start))
+    

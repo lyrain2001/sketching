@@ -16,7 +16,7 @@ class DataGenerator:
         self.one_count = length - self.zero_count
         self.overlap_count = int(self.one_count * overlap_ratio)
         self.outlier_count = int(self.one_count * outlier_ratio)
-        self.outlier_values = [5, 10, 20]
+        self.outlier_values = [5, 7, 9]
     
     def generate_vector(self, with_outliers=True):
         normal_count = self.one_count - (self.outlier_count if with_outliers else 0)

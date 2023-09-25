@@ -13,7 +13,7 @@ class SHSketch():
         dot_product = np.dot(self.sk_values, other.sk_values)
         norm_Sa = np.linalg.norm(self.sk_values)
         norm_Sb = np.linalg.norm(other.sk_values)
-        print(f"cosine: {dot_product / (norm_Sa * norm_Sb)}")
+        # print(f"cosine: {dot_product / (norm_Sa * norm_Sb)}")
         return dot_product / (norm_Sa * norm_Sb) * self.norm * other.norm
 
 class SimHash():
