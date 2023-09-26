@@ -19,10 +19,11 @@ class RandomHasher:
     
     
 class PSSketch():
-    def __init__(self, sk_indices: np.ndarray, sk_values: np.ndarray, tau: float) -> None:
+    def __init__(self, sk_indices: np.ndarray, sk_values: np.ndarray, tau: float, norm: float) -> None:
         self.sk_values: np.ndarray = sk_values
         self.sk_indices: np.ndarray = sk_indices
         self.tau: float = tau
+        self.norm: float = norm
 
     def inner_product(self, other: 'PSSketch') -> float:
         sum_value = 0
@@ -33,6 +34,7 @@ class PSSketch():
             kb, vb = other.sk_indices[j], other.sk_values[j]
             if ka == kb:
                 denominator = min(1, va ** 2 * self.tau, vb ** 2 * other.tau)
+                # denominator = min(1, ((va ** 2) ** (self.norm / 2)) * self.tau, ((vb ** 2) ** (other.norm / 2)) * other.tau)
                 sum_value += va * vb / denominator
                 i += 1
                 j += 1
@@ -44,19 +46,18 @@ class PSSketch():
 
 
 class PrioritySampling():
-    def __init__(self, sketch_size: int) -> None:
+    def __init__(self, sketch_size: int, vector_size: int) -> None:
         self.sketch_size: int = sketch_size  # Number of rows in the sketch matrix
+        self.hashed_values: np.ndarray = RandomHasher(vector_size).get_hashed_values()
 
     def sketch(self, vector: np.ndarray) -> PSSketch:
-        hasher = RandomHasher(len(vector))
-        hashed_values = hasher.get_hashed_values()
-        
+        norm = np.linalg.norm(vector)
         rank = [None] * len(vector)
 
-        # Fill in the rank array with H[i]/A[i]^2 for A[i] != 0
         for i in range(len(vector)):
             if vector[i] != 0:
-                rank[i] = hashed_values[i] / (vector[i] ** 2)
+                rank[i] = self.hashed_values[i] / (vector[i]**2)
+                # rank[i] = hashed_values[i] / ((vector[i]**2)**(norm/2))
             else:
                 rank[i] = None 
         
@@ -78,7 +79,7 @@ class PrioritySampling():
                 sk_indices.append(i)
                 sk_values.append(vector[i])    
         
-        return PSSketch(sk_indices, sk_values, tau)
+        return PSSketch(sk_indices, sk_values, tau, norm)
 
 
 if __name__ == "__main__":

@@ -12,15 +12,15 @@ class DataGenerator:
             raise ValueError("length must be a positive integer.")
         
         self.length = length
-        self.zero_count = int(length * zero_ratio)
+        self.zero_count = int(self.length * zero_ratio)
         self.one_count = length - self.zero_count
-        self.overlap_count = int(self.one_count * overlap_ratio)
-        self.outlier_count = int(self.one_count * outlier_ratio)
+        self.overlap_count = int(self.length * overlap_ratio)
+        self.outlier_count = int(self.length * outlier_ratio)
         self.outlier_values = [5, 7, 9]
     
     def generate_vector(self, with_outliers=True):
         normal_count = self.one_count - (self.outlier_count if with_outliers else 0)
-        normal_part = np.random.rand(normal_count)
+        normal_part = np.random.uniform(-1, 1, normal_count)
         zero_part = np.zeros(self.zero_count)
         
         if with_outliers:
@@ -38,6 +38,7 @@ class DataGenerator:
         
         # Initialize the second vector with overlapping and non-overlapping parts
         overlap_part = vector_1[:self.overlap_count].copy()
+        # print("overlap_count:", self.overlap_count)
         non_overlap_part = self.generate_vector(with_outliers=False)[self.overlap_count:]
         vector_2 = np.concatenate([overlap_part, non_overlap_part])
         

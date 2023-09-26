@@ -2,24 +2,14 @@ import numpy as np
 import scipy.sparse as sparse
 
 #
-# SimHash Sketch
+# SimHash Sketch with same length
 #
-
-class NormalMatrixGenerator:
-    def __init__(self, rows, cols):
-        self.rows = rows
-        self.cols = cols
-    
-    def generate(self):
-        return np.random.randn(self.rows, self.cols)
-
-
-class SHSketch():
+class SHMSketch():
     def __init__(self, sk_values: np.ndarray, norm: float) -> None:
         self.sk_values: np.ndarray = sk_values
         self.norm: float = norm
 
-    def inner_product(self, other: 'SHSketch') -> float:
+    def inner_product(self, other: 'SHMSketch') -> float:
         dot_product = np.dot(self.sk_values, other.sk_values)
         norm_Sa = np.linalg.norm(self.sk_values)
         norm_Sb = np.linalg.norm(other.sk_values)
@@ -28,18 +18,13 @@ class SHSketch():
         # print(f"cosine: {dot_product / (norm_Sa * norm_Sb)}")
         return dot_product / (norm_Sa * norm_Sb) * self.norm * other.norm
 
-class SimHash():
-    def __init__(self, sketch_size, vector_size) -> None:
-        self.sketch_size: int = sketch_size  # Number of rows in the sketch matrix
-        self.vector_size: int = vector_size
-        # really time consuming
-        self.phi = NormalMatrixGenerator(sketch_size, vector_size).generate()
+class SimHashM():
+    def __init__(self) -> None:
+        pass
 
-    def sketch(self, vector: np.ndarray) -> SHSketch:
-
-        sk_values = np.sign(self.phi.dot(vector))
-        
-        return SHSketch(sk_values, np.linalg.norm(vector))
+    def sketch(self, vector: np.ndarray) -> SHMSketch:        
+        sk_values = np.sign(vector)
+        return SHMSketch(sk_values, np.linalg.norm(vector))
 
 if __name__ == "__main__":
     vector_length = 2000
@@ -49,7 +34,7 @@ if __name__ == "__main__":
     print(f"vector_a: {vector_a}")
     print(f"vector_b: {vector_b}")
 
-    sh = SimHash(sketch_size=1000, seed=1)
+    sh = SimHashM(sketch_size=1000, seed=1)
 
     sketch_a = sh.sketch(vector_a)
     sketch_b = sh.sketch(vector_b)

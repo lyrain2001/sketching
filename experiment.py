@@ -8,11 +8,13 @@ try:
     from .simHash import *
     from .prioritySampling import *
     from .jl import *
+    from .simHashM import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
+    from simHashM import *
     
 
 def args_from_parser():
@@ -27,8 +29,10 @@ def args_from_parser():
         help="sketch methods to run", type=str)
     parser.add_argument("-vector_size", "--vector_size", default=10000,
         help="original vector size", type=int)
-    parser.add_argument("-sketch_size", "--sketch_size", default=100,
+    parser.add_argument("-sketch_size", "--sketch_size", default=1000,
         help="expected sketch size", type=int)
+    parser.add_argument("-storage_size", "--storage_size", default=0,
+        help="expected storage size", type=int)
     parser.add_argument("-iterations", "--iterations", default=1,
         help="number of iterations", type=int)
     parser.add_argument("-log", "--log", default=False,
@@ -39,26 +43,38 @@ def args_from_parser():
 
 if __name__ == "__main__":
     args = args_from_parser()
-    overlap_ratio, outlier_ratio, zeroes_ratio, sketch_methods, vector_size, sketch_size, iterations, log = args.overlap, args.outlier, args.zeroes, args.sketch_methods, args.vector_size, args.sketch_size, args.iterations, args.log
+    overlap_ratio, outlier_ratio, zeroes_ratio, sketch_methods, vector_size, sketch_size, storage_size, iterations, log = args.overlap, args.outlier, args.zeroes, args.sketch_methods, args.vector_size, args.sketch_size, args.storage_size, args.iterations, args.log
     # Initialize the data generator
-    generator = DataGenerator(vector_size, zeroes_ratio, overlap_ratio, outlier_ratio)
     errors = []
     time_start = time.time()
     for i in range(iterations):
+        generator = DataGenerator(vector_size, zeroes_ratio, overlap_ratio, outlier_ratio)
         vector_a, vector_b = generator.generate_pair()
-        seed = 1
+        # np.savetxt('vector_a.txt', vector_a, fmt='%f')
+        # np.savetxt('vector_b.txt', vector_b, fmt='%f')
+        seed = int((time.time() * 1000) % 4294967295)  # '4294967295' is the maximum value for a 32-bit integer.
         # print("vector_a:", vector_a)
         # print("vector_b:", vector_b)
         # generate condition for different sketch methods
         if sketch_methods == "SimHash":
-            sh = SimHash(sketch_size, seed)
+            if storage_size != 0:
+                sketch_size = int((storage_size * 64 - 128) / 2)
+            sh = SimHash(sketch_size, vector_size)
+            sketch_a = sh.sketch(vector_a)
+            sketch_b = sh.sketch(vector_b)
+        elif sketch_methods == "SimHashM":
+            sh = SimHashM()
             sketch_a = sh.sketch(vector_a)
             sketch_b = sh.sketch(vector_b)
         elif sketch_methods == "PrioritySampling":
-            ps = PrioritySampling(sketch_size)
+            if storage_size != 0:
+                sketch_size = int(storage_size / 2)
+            ps = PrioritySampling(sketch_size, vector_size)
             sketch_a = ps.sketch(vector_a)
             sketch_b = ps.sketch(vector_b)
         elif sketch_methods == "JL":
+            if storage_size != 0:
+                sketch_size = int(storage_size * 64 / (32 + 64) / 2)
             jl = JL(sketch_size, seed)
             sketch_a = jl.sketch(vector_a)
             sketch_b = jl.sketch(vector_b)
@@ -86,12 +102,17 @@ if __name__ == "__main__":
         #     f.write(str(time_end - time_start) + "\n")
         
         # Writing to csv file 
+        csv_name = "./results/sketch_" + sketch_methods + ".csv"
         # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
-        csv_name = "./results/" + sketch_methods + ".csv"
+        # csv_name = "./results/storage_" + sketch_methods + ".csv"
         
         with open(csv_name, 'a', newline='') as csvfile:
             csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
             csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start})
+            
+        # with open(csv_name, 'a', newline='') as csvfile:
+        #     csvwriter = csv.DictWriter(csvfile, fieldnames=['storage_size', 'mean', 'std', 'time'])
+        #     csvwriter.writerow({"storage_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start})
         
         # with open(csv_name, 'w', newline='') as csvfile:
         #     fieldnames = ['sketch_size', 'mean', 'std', 'time']
