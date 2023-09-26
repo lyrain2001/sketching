@@ -27,7 +27,7 @@ def args_from_parser():
         help="zero ratio of the vector", type=float)
     parser.add_argument("-sketch_methods", "--sketch_methods",
         help="sketch methods to run", type=str)
-    parser.add_argument("-vector_size", "--vector_size", default=10000,
+    parser.add_argument("-vector_size", "--vector_size", default=3000,
         help="original vector size", type=int)
     parser.add_argument("-sketch_size", "--sketch_size", default=1000,
         help="expected sketch size", type=int)
@@ -82,7 +82,10 @@ if __name__ == "__main__":
             raise ValueError("sketch_methods is not valid")
         
         inner_product = vector_a.dot(vector_b)
+        # print("consine: {}".format(inner_product / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))))
         inner_product_sketch = sketch_a.inner_product(sketch_b)
+        # print("inner_product: {}".format(inner_product))
+        # print("inner_product_sketch: {}".format(inner_product_sketch))
         error = np.abs(inner_product - inner_product_sketch) / inner_product
         errors.append(error)
         # Print the results
@@ -90,6 +93,7 @@ if __name__ == "__main__":
         # print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
         # print("Relative error: {}".format(np.abs(inner_product - inner_product_sketch) / inner_product))
     time_end = time.time()
+    it_time = (time_end - time_start) / iterations
     
     if log:
         # log name = sketch method + vector size + sketch size + overlap ratio + outlier ratio + zero ratio
@@ -102,17 +106,17 @@ if __name__ == "__main__":
         #     f.write(str(time_end - time_start) + "\n")
         
         # Writing to csv file 
-        csv_name = "./results/sketch_" + sketch_methods + ".csv"
+        # csv_name = "./results/sketch_" + sketch_methods + ".csv"
         # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
-        # csv_name = "./results/storage_" + sketch_methods + ".csv"
+        csv_name = "./results/storage_" + sketch_methods + ".csv"
         
-        with open(csv_name, 'a', newline='') as csvfile:
-            csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
-            csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start})
-            
         # with open(csv_name, 'a', newline='') as csvfile:
-        #     csvwriter = csv.DictWriter(csvfile, fieldnames=['storage_size', 'mean', 'std', 'time'])
-        #     csvwriter.writerow({"storage_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start})
+        #     csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
+        #     csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
+            
+        with open(csv_name, 'a', newline='') as csvfile:
+            csvwriter = csv.DictWriter(csvfile, fieldnames=['storage_size', 'mean', 'std', 'time'])
+            csvwriter.writerow({"storage_size": storage_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
         
         # with open(csv_name, 'w', newline='') as csvfile:
         #     fieldnames = ['sketch_size', 'mean', 'std', 'time']
@@ -122,5 +126,5 @@ if __name__ == "__main__":
     
     print("Average relative error: {}".format(np.mean(errors)))
     print("Standard deviation of relative error: {}".format(np.std(errors)))
-    print("Time elapsed: {}".format(time_end - time_start))
+    print("Time elapsed: {}".format(it_time))
     
