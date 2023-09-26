@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.sparse as sparse
+import math
 
 #
 # SimHash Sketch
@@ -23,10 +24,13 @@ class SHSketch():
         dot_product = np.dot(self.sk_values, other.sk_values)
         norm_Sa = np.linalg.norm(self.sk_values)
         norm_Sb = np.linalg.norm(other.sk_values)
+        
         # norm_Sa = np.sqrt(len(self.sk_values))
         # norm_Sb = np.sqrt(len(other.sk_values))
         # print(f"cosine: {dot_product / (norm_Sa * norm_Sb)}")
+        
         return dot_product / (norm_Sa * norm_Sb) * self.norm * other.norm
+        # return math.cos(math.pi / (2 * len(self.sk_values))) * np.linalg.norm(self.sk_values - other.sk_values, ord=1)
 
 class SimHash():
     def __init__(self, sketch_size, vector_size) -> None:

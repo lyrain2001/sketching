@@ -28,7 +28,7 @@ def plot_time(sh, jl, ps, shm):
     plt.ylabel('Time (s)')
     plt.grid(True, linestyle='--', alpha=0.7)
 
-    # plt.plot(sh.iloc[:,0], sh.iloc[:,3], label='SimHash', linestyle='-', marker='o')
+    plt.plot(sh.iloc[:,0], sh.iloc[:,3], label='SimHash', linestyle='-', marker='o')
     plt.plot(jl.iloc[:,0], jl.iloc[:,3], label='JL', linestyle='-', marker='s')
     plt.plot(ps.iloc[:,0], ps.iloc[:,3], label='PrioritySampling', linestyle='-', marker='^')
     plt.plot(shm.iloc[:,0], shm.iloc[:,3], label='SimHashM (m = n)', linestyle='-', marker='*')
