@@ -23,7 +23,7 @@ def args_from_parser():
         help="overlap ratio of 2 vectors", type=float)
     parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)
-    parser.add_argument("-zeroes", "--zeroes", default=0.2,
+    parser.add_argument("-zeroes", "--zeroes", default=0.8,
         help="zero ratio of the vector", type=float)
     parser.add_argument("-sketch_methods", "--sketch_methods",
         help="sketch methods to run", type=str)
@@ -50,8 +50,8 @@ if __name__ == "__main__":
     for i in range(iterations):
         generator = DataGenerator(vector_size, zeroes_ratio, overlap_ratio, outlier_ratio)
         vector_a, vector_b = generator.generate_pair()
-        # np.savetxt('vector_a.txt', vector_a, fmt='%f')
-        # np.savetxt('vector_b.txt', vector_b, fmt='%f')
+        np.savetxt('vector_a.txt', vector_a, fmt='%f')
+        np.savetxt('vector_b.txt', vector_b, fmt='%f')
         seed = int((time.time() * 1000) % 4294967295)  # '4294967295' is the maximum value for a 32-bit integer.
         # print("vector_a:", vector_a)
         # print("vector_b:", vector_b)
@@ -86,7 +86,10 @@ if __name__ == "__main__":
         inner_product_sketch = sketch_a.inner_product(sketch_b)
         # print("inner_product: {}".format(inner_product))
         # print("inner_product_sketch: {}".format(inner_product_sketch))
-        error = np.abs(inner_product - inner_product_sketch) / inner_product
+        
+        # error = np.abs(inner_product - inner_product_sketch) / inner_product
+        error = np.abs(inner_product - inner_product_sketch) / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))
+        
         errors.append(error)
         # Print the results
         # print("Inner product of the vector with itself: {}".format(inner_product))
@@ -108,7 +111,7 @@ if __name__ == "__main__":
         # Writing to csv file 
         # csv_name = "./results/sketch_" + sketch_methods + ".csv"
         # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
-        csv_name = "./results/storage_" + sketch_methods + ".csv"
+        csv_name = "./results/storage_new_error_" + sketch_methods + ".csv"
         
         # with open(csv_name, 'a', newline='') as csvfile:
         #     csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
