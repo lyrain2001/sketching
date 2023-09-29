@@ -25,7 +25,7 @@ def args_from_parser():
         help="zero ratio of the vector", type=float)
     parser.add_argument("-sketch_methods", "--sketch_methods",
         help="sketch methods to run", type=str)
-    parser.add_argument("-vector_size", "--vector_size", default=3000,
+    parser.add_argument("-vector_size", "--vector_size", default=10000,
         help="original vector size", type=int)
     parser.add_argument("-sketch_size", "--sketch_size", default=1000,
         help="expected sketch size", type=int)
