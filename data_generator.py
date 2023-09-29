@@ -16,7 +16,6 @@ class DataGenerator:
         self.one_count = length - self.zero_count
         self.overlap_count = int(self.length * overlap_ratio)
         self.outlier_count = int(self.length * outlier_ratio)
-        self.outlier_values = [5, 7, 9]
     
     def generate_vector(self, with_outliers=True):
         normal_count = self.one_count - (self.outlier_count if with_outliers else 0)
@@ -24,7 +23,8 @@ class DataGenerator:
         zero_part = np.zeros(self.zero_count)
         
         if with_outliers:
-            outlier_part = np.random.choice(self.outlier_values, self.outlier_count)
+            # outlier part is a list of random values between 6 and 9
+            outlier_part = np.random.uniform(6, 9, self.outlier_count)
             vector = np.concatenate([normal_part, zero_part, outlier_part])
         else:
             vector = np.concatenate([normal_part, zero_part])

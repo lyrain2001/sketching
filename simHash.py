@@ -23,23 +23,18 @@ class SHSketch():
 
     def inner_product(self, other: 'SHSketch') -> float:
         
-        # # norm_Sa = np.sqrt(len(self.sk_values))
-        # # norm_Sb = np.sqrt(len(other.sk_values))
-        # # print(f"cosine: {dot_product / (norm_Sa * norm_Sb)}")
+        # dot_product = np.dot(self.sk_values, other.sk_values)
+        # norm_Sa = np.linalg.norm(self.sk_values)
+        # norm_Sb = np.linalg.norm(other.sk_values)
+        # print("1_cosine_sketch: {}".format(dot_product / (norm_Sa * norm_Sb)))
+        # print("1_sketch: {}".format(self.norm * other.norm * dot_product / (norm_Sa * norm_Sb)))
+        # return self.norm * other.norm * dot_product / (norm_Sa * norm_Sb)
         
-        dot_product = np.dot(self.sk_values, other.sk_values)
-        norm_Sa = np.linalg.norm(self.sk_values)
-        norm_Sb = np.linalg.norm(other.sk_values)
-        # print("cosine_sketch: {}".format(dot_product / (norm_Sa * norm_Sb)))
-        return self.norm * other.norm * dot_product / (norm_Sa * norm_Sb)
-        
-        # print(f"self.sk_values: {self.sk_values}")
-        # print(f"number of zeroes: {len(self.sk_values) - np.count_nonzero(self.sk_values)}")
-        
-        # difference = np.count_nonzero(self.sk_values - other.sk_values)
+        difference = np.count_nonzero(self.sk_values - other.sk_values)
         # print(f"difference: {difference}")
-        # print(f"cossim: {math.cos(difference / len(self.sk_values))}")
-        # return math.cos(difference / len(self.sk_values)) * self.norm * other.norm
+        # print(f"2_cosine_sketch: {math.cos(difference / len(self.sk_values))}")
+        # print("2_sketch: {}".format(math.cos(math.pi * difference / len(self.sk_values)) * self.norm * other.norm))
+        return math.cos(math.pi * difference / len(self.sk_values)) * self.norm * other.norm
 
 class SimHash():
     def __init__(self, sketch_size, vector_size) -> None:
@@ -49,10 +44,7 @@ class SimHash():
         self.phi = NormalMatrixGenerator(sketch_size, vector_size).generate()
 
     def sketch(self, vector: np.ndarray) -> SHSketch:
-
         sk_values = np.sign(self.phi.dot(vector))
-        
-        # print(f"np.linalg.norm(vector) = {np.linalg.norm(vector)}")
         return SHSketch(sk_values, np.linalg.norm(vector))
 
 if __name__ == "__main__":
