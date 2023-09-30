@@ -4,22 +4,21 @@ import matplotlib.pyplot as plt
 def plot_average_error(sh, jl, ps):
 
     plt.figure(figsize=(8,6))
-    plt.title('Comparison of Average Relative Error (0.8 zeroes, [-1, 1], 0.5 olp)')
+    plt.title('Comparison of Average Relative Error (0.8 zeroes, [-1, 1], 0.1 olp)')
     plt.xlabel('Storage Size')
     plt.ylabel('Average Relative Error')
     plt.grid(True, linestyle='--', alpha=0.7)
     
-    errorbar_opts = {'elinewidth': 2, 'capsize': 5, 'capthick': 2}  # Adjust as necessary
+    errorbar_opts = {'elinewidth': 2, 'capsize': 5, 'capthick': 2} 
 
     plt.errorbar(sh.iloc[:,0], sh.iloc[:,1], yerr=sh.iloc[:,2], label='SimHash', linestyle='-', marker='o', **errorbar_opts)
     plt.errorbar(jl.iloc[:,0], jl.iloc[:,1], yerr=jl.iloc[:,2], label='JL', linestyle='-', marker='s', **errorbar_opts)
     plt.errorbar(ps.iloc[:,0], ps.iloc[:,1], yerr=ps.iloc[:,2], label='PrioritySampling', linestyle='-', marker='^', **errorbar_opts)
-    # plt.errorbar(shm.iloc[:,0], shm.iloc[:,1], yerr=shm.iloc[:,2], label='SimHashM (m = n)', linestyle='-', marker='*', **errorbar_opts)
-
+    
     plt.legend(loc='upper right', frameon=True, shadow=True)
     plt.tight_layout()
 
-    plt.savefig('./results/error_olp0.5.png')
+    plt.savefig('./results/vec-size-1w/error_olp0.1.png')
     
 # def plot_time(sh, jl, ps):
 #     plt.figure(figsize=(8,6))
@@ -39,9 +38,9 @@ def plot_average_error(sh, jl, ps):
 #     plt.savefig('./results/storage_time.png')
 
 
-sh = pd.read_csv('./results/olp0.5_SimHash.csv')
-jl = pd.read_csv('./results/olp0.5_JL.csv')
-ps = pd.read_csv('./results/olp0.5_PrioritySampling.csv')
+sh = pd.read_csv('./results/vec-size-1w/olp0.1_SimHash.csv', header=None)
+jl = pd.read_csv('./results/vec-size-1w/olp0.1_JL.csv', header=None)
+ps = pd.read_csv('./results/vec-size-1w/olp0.1_PrioritySampling.csv', header=None)
 
 
 plot_average_error(sh, jl, ps)
