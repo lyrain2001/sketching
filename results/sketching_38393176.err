@@ -1,0 +1,5 @@
+/opt/slurm/data/slurmd/job38393176/slurm_script: line 18: 2951599 Killed                  python experiment.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
+/opt/slurm/data/slurmd/job38393176/slurm_script: line 18: 2951638 Killed                  python experiment.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
+/opt/slurm/data/slurmd/job38393176/slurm_script: line 18: 2951656 Killed                  python experiment.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
+/opt/slurm/data/slurmd/job38393176/slurm_script: line 18: 2951680 Killed                  python experiment.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
+slurmstepd: error: Detected 4 oom-kill event(s) in StepId=38393176.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

@@ -108,14 +108,14 @@ if __name__ == "__main__":
         # Writing to csv file 
         # csv_name = "./results/sketch_" + sketch_methods + ".csv"
         # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
-        csv_name = "./results/storage_olp0.01_" + sketch_methods + ".csv"
+        # csv_name = "./results/storage_olp0.01_" + sketch_methods + ".csv"
         # csv_name = log_name + sketch_methods + ".csv"
         
         # with open(csv_name, 'a', newline='') as csvfile:
         #     csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
         #     csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
             
-        with open(csv_name, 'a', newline='') as csvfile:
+        with open(log_name, 'a', newline='') as csvfile:
             csvwriter = csv.DictWriter(csvfile, fieldnames=['storage_size', 'mean', 'std', 'time'])
             csvwriter.writerow({"storage_size": storage_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
         

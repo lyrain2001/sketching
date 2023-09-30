@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def plot_average_error(sh, jl, ps):
 
     plt.figure(figsize=(8,6))
-    plt.title('Comparison of Average Relative Error (0.8 zeroes, [-1, 1], 1 olp)')
+    plt.title('Comparison of Average Relative Error (0.8 zeroes, [-1, 1], 0.5 olp)')
     plt.xlabel('Storage Size')
     plt.ylabel('Average Relative Error')
     plt.grid(True, linestyle='--', alpha=0.7)
@@ -19,7 +19,7 @@ def plot_average_error(sh, jl, ps):
     plt.legend(loc='upper right', frameon=True, shadow=True)
     plt.tight_layout()
 
-    plt.savefig('./results/storage_error_olp0.01.png')
+    plt.savefig('./results/error_olp0.5.png')
     
 # def plot_time(sh, jl, ps):
 #     plt.figure(figsize=(8,6))
@@ -39,10 +39,10 @@ def plot_average_error(sh, jl, ps):
 #     plt.savefig('./results/storage_time.png')
 
 
-sh = pd.read_csv('./results/storage_olp0.01_SimHash.csv')
-jl = pd.read_csv('./results/storage_olp0.01_JL.csv')
-ps = pd.read_csv('./results/storage_olp0.01_PrioritySampling.csv')
-# shm = pd.read_csv('./results/storage_SimHashM.csv')
+sh = pd.read_csv('./results/olp0.5_SimHash.csv')
+jl = pd.read_csv('./results/olp0.5_JL.csv')
+ps = pd.read_csv('./results/olp0.5_PrioritySampling.csv')
+
 
 plot_average_error(sh, jl, ps)
 # plot_time(sh, jl, ps)

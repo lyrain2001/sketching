@@ -1,0 +1,228 @@
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 200 -log true
+Average relative error: 0.10631258133474038
+Standard deviation of relative error: 0.08072840431015858
+Time elapsed: 0.011247856616973877
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 200 -log true
+Average relative error: 0.09941837482063798
+Standard deviation of relative error: 0.07511509661559253
+Time elapsed: 0.009542131423950195
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 200 -log true
+Average relative error: 0.09920344014190728
+Standard deviation of relative error: 0.07147016149348821
+Time elapsed: 0.009418637752532958
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 200 -log true
+Average relative error: 0.1310591267102104
+Standard deviation of relative error: 0.11607312465195564
+Time elapsed: 0.009407768249511719
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 400 -log true
+Average relative error: 0.06632308030299555
+Standard deviation of relative error: 0.04682377813767708
+Time elapsed: 0.021915462017059326
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 400 -log true
+Average relative error: 0.06605135304167793
+Standard deviation of relative error: 0.05317986377156762
+Time elapsed: 0.02226296901702881
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 400 -log true
+Average relative error: 0.07729592382093868
+Standard deviation of relative error: 0.054608878516728125
+Time elapsed: 0.022248263359069823
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 400 -log true
+Average relative error: 0.10413473167837951
+Standard deviation of relative error: 0.07254783776102806
+Time elapsed: 0.02356718301773071
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 600 -log true
+Average relative error: 0.054567278749148906
+Standard deviation of relative error: 0.03974384952752364
+Time elapsed: 0.033995487689971925
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 600 -log true
+Average relative error: 0.05447462814314767
+Standard deviation of relative error: 0.0407509309821834
+Time elapsed: 0.03298136949539185
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 600 -log true
+Average relative error: 0.06060104908022854
+Standard deviation of relative error: 0.04795297813951291
+Time elapsed: 0.03254503488540649
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 600 -log true
+Average relative error: 0.07629212592100278
+Standard deviation of relative error: 0.05334496330444357
+Time elapsed: 0.033066799640655516
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 800 -log true
+Average relative error: 0.04987635786776146
+Standard deviation of relative error: 0.03505654142558715
+Time elapsed: 0.05862810850143432
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 800 -log true
+Average relative error: 0.05329705049945401
+Standard deviation of relative error: 0.04079542668085615
+Time elapsed: 0.058935272693634036
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 800 -log true
+Average relative error: 0.05602366285025692
+Standard deviation of relative error: 0.04151224573949457
+Time elapsed: 0.05985195636749267
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 800 -log true
+Average relative error: 0.06607227302719841
+Standard deviation of relative error: 0.05186712549574555
+Time elapsed: 0.06207504987716675
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.04894866085297073
+Standard deviation of relative error: 0.037907761446662774
+Time elapsed: 0.07598203897476197
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.0481435117718903
+Standard deviation of relative error: 0.031564184470919784
+Time elapsed: 0.0789056372642517
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.03968026267042921
+Standard deviation of relative error: 0.035113286601959996
+Time elapsed: 0.08062049150466918
+Running: python experiment.py -sketch_methods JL -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.058181546928802244
+Standard deviation of relative error: 0.05069805994071058
+Time elapsed: 0.08213375806808472
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 200 -log true
+Average relative error: 0.01683383982004468
+Standard deviation of relative error: 0.012354595763307833
+Time elapsed: 2.114403827190399
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 200 -log true
+Average relative error: 0.01667557812039504
+Standard deviation of relative error: 0.011739300675393315
+Time elapsed: 2.114012989997864
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 200 -log true
+Average relative error: 0.012741449384417574
+Standard deviation of relative error: 0.010230615563033466
+Time elapsed: 2.1022958326339722
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 200 -log true
+Average relative error: 6.655947592065756e-17
+Standard deviation of relative error: 8.326763804396493e-17
+Time elapsed: 2.1045593571662904
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 400 -log true
+Average relative error: 0.010475982963446888
+Standard deviation of relative error: 0.007507722626256317
+Time elapsed: 4.2273766040802006
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 400 -log true
+Average relative error: 0.01162329127049224
+Standard deviation of relative error: 0.009624235306617511
+Time elapsed: 4.22018717288971
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 400 -log true
+Average relative error: 0.008965919763634986
+Standard deviation of relative error: 0.006712079064470161
+Time elapsed: 4.227837471961975
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 400 -log true
+Average relative error: 6.448999809376298e-17
+Standard deviation of relative error: 8.240155152296146e-17
+Time elapsed: 4.22316164970398
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 600 -log true
+Average relative error: 0.009241714345624222
+Standard deviation of relative error: 0.007424954450986048
+Time elapsed: 6.350447218418122
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 600 -log true
+Average relative error: 0.008380851551065861
+Standard deviation of relative error: 0.006194179585677712
+Time elapsed: 6.342756567001342
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 600 -log true
+Average relative error: 0.006600626291497808
+Standard deviation of relative error: 0.004896868313621068
+Time elapsed: 6.3481809258460995
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 600 -log true
+Average relative error: 6.654991265672765e-17
+Standard deviation of relative error: 8.325218957479399e-17
+Time elapsed: 6.348981304168701
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 800 -log true
+Average relative error: 0.00876651022816422
+Standard deviation of relative error: 0.006169571648787453
+Time elapsed: 8.474446694850922
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 800 -log true
+Average relative error: 0.0073637113637860015
+Standard deviation of relative error: 0.005297339592555848
+Time elapsed: 8.45210776567459
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 800 -log true
+Average relative error: 0.006146821445918235
+Standard deviation of relative error: 0.0047802088939493175
+Time elapsed: 8.330220634937286
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 800 -log true
+Average relative error: 6.119831645593241e-17
+Standard deviation of relative error: 8.16181100904347e-17
+Time elapsed: 8.345846366882324
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 1000 -log true
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 1000 -log true
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 1000 -log true
+Running: python experiment.py -sketch_methods SimHash -iterations 100 -storage_size 1000 -log true
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 200 -log true
+Average relative error: 0.04229413923886469
+Standard deviation of relative error: 0.03551891905697152
+Time elapsed: 0.010924508571624756
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 200 -log true
+Average relative error: 0.04026711259441001
+Standard deviation of relative error: 0.02926268155080631
+Time elapsed: 0.010914850234985351
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 200 -log true
+Average relative error: 0.06313893917420552
+Standard deviation of relative error: 0.0473272973464424
+Time elapsed: 0.010938518047332764
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 200 -log true
+Average relative error: 0.06733305728093501
+Standard deviation of relative error: 0.04635941226256199
+Time elapsed: 0.010879018306732179
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 400 -log true
+Average relative error: 0.026075927454803423
+Standard deviation of relative error: 0.02235937610389389
+Time elapsed: 0.010901346206665039
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 400 -log true
+Average relative error: 0.03241294735832684
+Standard deviation of relative error: 0.021670838722017645
+Time elapsed: 0.010935437679290772
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 400 -log true
+Average relative error: 0.044618708449516944
+Standard deviation of relative error: 0.036739451451173834
+Time elapsed: 0.01109856367111206
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 400 -log true
+Average relative error: 0.04643926892130528
+Standard deviation of relative error: 0.03846339013124557
+Time elapsed: 0.011063876152038575
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 600 -log true
+Average relative error: 0.02421468709255462
+Standard deviation of relative error: 0.019552949481292208
+Time elapsed: 0.01109893798828125
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 600 -log true
+Average relative error: 0.03141579869815438
+Standard deviation of relative error: 0.024748243897832735
+Time elapsed: 0.011073179244995117
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 600 -log true
+Average relative error: 0.026496570379162053
+Standard deviation of relative error: 0.020276873977224857
+Time elapsed: 0.011162879467010499
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 600 -log true
+Average relative error: 0.04246272236135653
+Standard deviation of relative error: 0.03228675429950471
+Time elapsed: 0.012147793769836426
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 800 -log true
+Average relative error: 0.01845150705171068
+Standard deviation of relative error: 0.015555461283359402
+Time elapsed: 0.011241142749786376
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 800 -log true
+Average relative error: 0.0222438520519851
+Standard deviation of relative error: 0.018362534411576214
+Time elapsed: 0.011184046268463135
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 800 -log true
+Average relative error: 0.02707921624638629
+Standard deviation of relative error: 0.020903082614022198
+Time elapsed: 0.01129154920578003
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 800 -log true
+Average relative error: 0.03156628317940893
+Standard deviation of relative error: 0.021851527065528703
+Time elapsed: 0.011343011856079102
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.01781880061548585
+Standard deviation of relative error: 0.013929935743127878
+Time elapsed: 0.011265206336975097
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.01880305702830528
+Standard deviation of relative error: 0.014532546865435519
+Time elapsed: 0.011258652210235595
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.02190486461989492
+Standard deviation of relative error: 0.0158794703439332
+Time elapsed: 0.01130927324295044
+Running: python experiment.py -sketch_methods PrioritySampling -iterations 100 -storage_size 1000 -log true
+Average relative error: 0.024117036572996117
+Standard deviation of relative error: 0.01839174746426697
+Time elapsed: 0.01142242670059204
