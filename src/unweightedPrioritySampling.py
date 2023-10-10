@@ -6,7 +6,7 @@ import random
 # Unweighted Priority Sampling Sketch
 #
 
-class RandomHasher:
+class UnweightedRandomHasher:
     def __init__(self, n):
         self.hashed_values = [0] * (n + 1)  # Initialize list with n+1 zeros
         
@@ -28,11 +28,11 @@ class UPSSketch():
         sum_value = 0
         i = 0
         j = 0
+        denominator = min(1, self.tau, other.tau)
         while i < len(self.sk_indices) and j < len(other.sk_indices):
             ka, va = self.sk_indices[i], self.sk_values[i]
             kb, vb = other.sk_indices[j], other.sk_values[j]
             if ka == kb:
-                denominator = min(1, self.tau, other.tau)
                 sum_value += va * vb / denominator
                 i += 1
                 j += 1
@@ -46,7 +46,7 @@ class UPSSketch():
 class UnweightedPrioritySampling():
     def __init__(self, sketch_size: int, vector_size: int) -> None:
         self.sketch_size: int = sketch_size  # Number of rows in the sketch matrix
-        self.hashed_values: np.ndarray = RandomHasher(vector_size).get_hashed_values()
+        self.hashed_values: np.ndarray = UnweightedRandomHasher(vector_size).get_hashed_values()
 
     def sketch(self, vector: np.ndarray) -> UPSSketch:    
         rank = [self.hashed_values[i] for i in range(len(vector))]
@@ -54,18 +54,18 @@ class UnweightedPrioritySampling():
         tau = float('inf')  # Initialize tau_a to infinity
         
         # Filtering out values where corresponding A[i] is zero and then sorting the remaining values in rank.
-        non_zero_rank = sorted(rank[i] for i in range(len(vector)) if vector[i] != 0)
+        sorted_rank = sorted(rank[i] for i in range(len(vector)))
         
         # If there are at least m + 1 non-zero values in A, find the (m + 1)-th smallest value in rank.
-        if len(non_zero_rank) > self.sketch_size:
-            tau = non_zero_rank[self.sketch_size]  # m is 1 less than (m + 1) due to 0-based indexing.
+        if len(sorted_rank) > self.sketch_size:
+            tau = sorted_rank[self.sketch_size]  # m is 1 less than (m + 1) due to 0-based indexing.
         
         sk_indices = []
         sk_values = []
         
         # Iterate through the rank array and append to K and V as necessary
         for i in range(len(rank)):
-            if vector[i] != 0 and rank[i] < tau:
+            if rank[i] < tau:
                 sk_indices.append(i)
                 sk_values.append(vector[i])    
         

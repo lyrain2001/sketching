@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_average_error(sh, jl, ps):
+def plot_average_error(sh, jl, ps, ups, upssh):
 
     plt.figure(figsize=(8,6))
     plt.title('Comparison of Average Relative Error (0.8 zeroes, [-1, 1], 0.1 olp)')
@@ -14,11 +14,13 @@ def plot_average_error(sh, jl, ps):
     plt.errorbar(sh.iloc[:,0], sh.iloc[:,1], yerr=sh.iloc[:,2], label='SimHash', linestyle='-', marker='o', **errorbar_opts)
     plt.errorbar(jl.iloc[:,0], jl.iloc[:,1], yerr=jl.iloc[:,2], label='JL', linestyle='-', marker='s', **errorbar_opts)
     plt.errorbar(ps.iloc[:,0], ps.iloc[:,1], yerr=ps.iloc[:,2], label='PrioritySampling', linestyle='-', marker='^', **errorbar_opts)
+    plt.errorbar(ups.iloc[:,0], ups.iloc[:,1], yerr=ups.iloc[:,2], label='UnweightedPrioritySampling', linestyle='-', marker='*', **errorbar_opts)
+    plt.errorbar(upssh.iloc[:,0], upssh.iloc[:,1], yerr=upssh.iloc[:,2], label='UnweightedPrioritySamplingSimHash', linestyle='-', marker='x', **errorbar_opts)
     
     plt.legend(loc='upper right', frameon=True, shadow=True)
     plt.tight_layout()
 
-    plt.savefig('./results/vec-size-1w/error_olp0.1.png')
+    plt.savefig('./results/vec-size-1w/new_error_olp0.1.png')
     
 # def plot_time(sh, jl, ps):
 #     plt.figure(figsize=(8,6))
@@ -41,7 +43,9 @@ def plot_average_error(sh, jl, ps):
 sh = pd.read_csv('./results/vec-size-1w/olp0.1_SimHash.csv', header=None)
 jl = pd.read_csv('./results/vec-size-1w/olp0.1_JL.csv', header=None)
 ps = pd.read_csv('./results/vec-size-1w/olp0.1_PrioritySampling.csv', header=None)
+ups = pd.read_csv('./results/vec-size-1w/olp0.1_UnweightedPrioritySampling.csv', header=None)
+upssh = pd.read_csv('./results/vec-size-1w/olp0.1_UnweightedPrioritySamplingSimHash.csv', header=None)
 
 
-plot_average_error(sh, jl, ps)
+plot_average_error(sh, jl, ps, ups, upssh)
 # plot_time(sh, jl, ps)

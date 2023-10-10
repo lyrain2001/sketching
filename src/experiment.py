@@ -9,17 +9,19 @@ try:
     from .prioritySampling import *
     from .jl import *
     from .unweightedPrioritySampling import *
+    from .upsSimHash import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
     from unweightedPrioritySampling import *
+    from upsSimHash import *
     
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", default=0.01,
+    parser.add_argument("-overlap", "--overlap", default=0.1,
         help="overlap ratio of 2 vectors", type=float)
     parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)
@@ -66,22 +68,28 @@ if __name__ == "__main__":
             sketch_b = sh.sketch(vector_b)
         elif sketch_methods == "PrioritySampling":
             if storage_size != 0:
-                sketch_size = int(storage_size / 2)
+                sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
             ps = PrioritySampling(sketch_size, vector_size)
             sketch_a = ps.sketch(vector_a)
             sketch_b = ps.sketch(vector_b)
         elif sketch_methods == "JL":
             if storage_size != 0:
-                sketch_size = int(storage_size * 64 / (32 + 64) / 2)
+                sketch_size = int(storage_size)
             jl = JL(sketch_size, seed)
             sketch_a = jl.sketch(vector_a)
             sketch_b = jl.sketch(vector_b)
         elif sketch_methods == "UnweightedPrioritySampling":
             if storage_size != 0:
-                sketch_size = int(storage_size / 2)
+                sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
             ups = UnweightedPrioritySampling(sketch_size, vector_size)
             sketch_a = ups.sketch(vector_a)
             sketch_b = ups.sketch(vector_b)
+        elif sketch_methods == "UnweightedPrioritySamplingSimHash":
+            if storage_size != 0:
+                sketch_size = int((storage_size * 64 / 2 - 128)/ (32 + 1))
+            upssh = UnweightedPrioritySamplingSimHash(sketch_size, vector_size)
+            sketch_a = upssh.sketch(vector_a)
+            sketch_b = upssh.sketch(vector_b)
         else:
             raise ValueError("sketch_methods is not valid")
         
