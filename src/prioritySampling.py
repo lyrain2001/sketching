@@ -9,7 +9,7 @@ import random
 class RandomHasher:
     def __init__(self, n):
         self.hashed_values = [0] * (n + 1)  # Initialize list with n+1 zeros
-        
+        # TODO: round
         for i in range(n + 1):
             rand_value = random.random()  # Generates a random float in [0, 1)
             self.hashed_values[i] = rand_value
