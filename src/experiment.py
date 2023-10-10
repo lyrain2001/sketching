@@ -8,11 +8,13 @@ try:
     from .simHash import *
     from .prioritySampling import *
     from .jl import *
+    from .unweightedPrioritySampling import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
+    from unweightedPrioritySampling import *
     
 
 def args_from_parser():
@@ -74,6 +76,12 @@ if __name__ == "__main__":
             jl = JL(sketch_size, seed)
             sketch_a = jl.sketch(vector_a)
             sketch_b = jl.sketch(vector_b)
+        elif sketch_methods == "UnweightedPrioritySampling":
+            if storage_size != 0:
+                sketch_size = int(storage_size / 2)
+            ups = UnweightedPrioritySampling(sketch_size, vector_size)
+            sketch_a = ups.sketch(vector_a)
+            sketch_b = ups.sketch(vector_b)
         else:
             raise ValueError("sketch_methods is not valid")
         
