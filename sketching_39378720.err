@@ -1,3 +1,0 @@
-/opt/slurm/data/slurmd/job39378720/slurm_script: line 19: 1563892 Killed                  python src/experiment_simhash.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
-/opt/slurm/data/slurmd/job39378720/slurm_script: line 19: 1576922 Killed                  python src/experiment_simhash.py -sketch_methods $sketch_method -overlap $overlap -iterations 100 -storage_size $storage_size -log true -log_name $log_file
-slurmstepd: error: Detected 2 oom-kill event(s) in StepId=39378720.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
