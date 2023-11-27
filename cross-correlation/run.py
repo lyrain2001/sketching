@@ -11,11 +11,15 @@ def generate_normal_data(size):
     """Generate normally distributed data."""
     return np.random.randn(size)
 
-def correlate_and_measure_time(data1, data2, method):
+def correlate_and_measure_time(Si, Sj, method):
     """Perform cross-correlation and measure time."""
     start_time = time.time()
-    scipy.signal.correlate(data1, data2, method=method)
-    return time.time() - start_time
+    # source: https://github.com/scipy/scipy/blob/v1.11.4/scipy/signal/_signaltools.py#L91-L288
+    raw_corr = scipy.signal.correlate(Si, Sj, method=method)
+    T = len(Si)
+    # k = tau + T - 1
+    normalized_corr = np.array([raw_corr[lag] / (T - abs(lag - T + 1)) for lag in range(len(raw_corr))])
+    return normalized_corr, time.time() - start_time
 
 def main():
     # Parsing command line arguments
@@ -38,8 +42,10 @@ def main():
 
     # Perform cross-correlation and measure time
     method = args.method
-    time_taken = correlate_and_measure_time(data1, data2, method)
+    result, time_taken = correlate_and_measure_time(data1, data2, method)
     print(f"Method: {method}, Time Taken: {time_taken} seconds")
+    # print non-zero values with their indices
+    print(f"Non-zero values: {result[np.nonzero(result)]}")
 
 if __name__ == "__main__":
     main()
