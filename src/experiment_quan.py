@@ -6,13 +6,13 @@ import csv
 try:
     from .data_generator import *
     from .simHash import *
-    from .simHashRound import *
     from .simHashFunction import *
+    from .ups_sh import *
 except ImportError:
     from data_generator import *
     from simHash import *
-    from simHashRound import *
     from simHashFunction import *
+    from ups_sh import *
     
 
 def args_from_parser():
@@ -56,12 +56,6 @@ if __name__ == "__main__":
             if storage_size != 0:
                 sketch_size = int((storage_size * 64 - 128) / 2)
             sh = SimHash(sketch_size, vector_size)
-            sketch_a = sh.sketch(vector_a)
-            sketch_b = sh.sketch(vector_b)
-        elif sketch_methods == "SimHashRound":
-            if storage_size != 0:
-                sketch_size = int((storage_size * 64 - 128) / 2)
-            sh = SimHashRound(sketch_size, vector_size)
             sketch_a = sh.sketch(vector_a)
             sketch_b = sh.sketch(vector_b)
         elif sketch_methods == "SimHashFunction":

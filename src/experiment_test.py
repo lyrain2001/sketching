@@ -8,15 +8,15 @@ try:
     from .simHash import *
     from .prioritySampling import *
     from .jl import *
-    from .unweightedPrioritySampling import *
-    from .upsSimHash import *
+    from .ups_sh import *
+    from .wmh import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
-    from unweightedPrioritySampling import *
-    from upsSimHash import *
+    from ups_sh import *
+    from wmh import *
     
 
 def args_from_parser():
@@ -68,7 +68,8 @@ if __name__ == "__main__":
             sketch_b = sh.sketch(vector_b)
         elif sketch_methods == "PrioritySampling":
             if storage_size != 0:
-                sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
+                # sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
+                sketch_size = int(storage_size/1.5)
             ps = PrioritySampling(sketch_size, vector_size)
             sketch_a = ps.sketch(vector_a)
             sketch_b = ps.sketch(vector_b)
@@ -78,9 +79,16 @@ if __name__ == "__main__":
             jl = JL(sketch_size, seed)
             sketch_a = jl.sketch(vector_a)
             sketch_b = jl.sketch(vector_b)
+        elif sketch_methods == "WeightedMinHash":
+            if storage_size != 0:
+                sketch_size = int(storage_size/1.5)
+            wmh = WMH(sketch_size, seed)
+            sketch_a = wmh.sketch(vector_a)
+            sketch_b = wmh.sketch(vector_b)
         elif sketch_methods == "UnweightedPrioritySampling":
             if storage_size != 0:
-                sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
+                # sketch_size = int((storage_size * 64 / 2 - 64)/ (32 + 64))
+                sketch_size = int(storage_size/1.5)
             ups = UnweightedPrioritySampling(sketch_size, vector_size)
             sketch_a = ups.sketch(vector_a)
             sketch_b = ups.sketch(vector_b)
