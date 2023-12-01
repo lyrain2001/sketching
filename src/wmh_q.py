@@ -18,9 +18,10 @@ class QWMHSketch():
     def inner_product(self, other: 'QWMHSketch') -> float:
         r = [max(sA, sB) * signA * signB for (sA, signA), (sB, signB) in zip(zip(self.sk_values, self.sk_signs), zip(other.sk_values, other.sk_signs))]
 
-        
         mean = np.mean([1 if ha == hb else 0 for ha, hb in zip(self.sk_hashes, other.sk_hashes)])
+        print(f"mean: {mean}")
         union_size_est = self.p * (1 / mean)  # p = 1/L
+        print(f"union_size_est: {union_size_est}")
         ip_est = self.vector_l * other.vector_l * union_size_est / self.sketch_size * (np.sum(r * self.sk_signs * other.sk_signs) / self.sketch_size)
         
         # mean_union_size_est = self.p * (1 / np.sum([1 if ha == hb else 0 for ha, hb in zip(self.sk_hashes, other.sk_hashes)]))
@@ -39,6 +40,7 @@ class QWMH_L1():
     def sketch(self, vector: np.ndarray) -> QWMHSketch:        
         vector_l1 = np.linalg.norm(vector, ord=1)
         tilte_a = self.vector_rounding(vector/vector_l1, self.L)
+        print(f"tilte_a: {tilte_a}")
         tilte_a_nonzeroIndex = np.nonzero(tilte_a)[0]
         tilte_a_repeat = [v*self.L for v in tilte_a]
         tilte_a_repeat_numba = List(tilte_a_repeat)
@@ -48,6 +50,7 @@ class QWMH_L1():
         all_min_indices = np.argmin(all_hashes, axis=0)
         all_min_nonzeroIndex = tilte_a_nonzeroIndex[all_min_indices]
         a_values = tilte_a[all_min_nonzeroIndex]
+        # print(f"a_values: {a_values}")
         
         # sk_hashes = all_signs[all_min_nonzeroIndex]
         sk_hashes = np.random.choice([-1, 1], size=self.sketch_size)
@@ -60,38 +63,16 @@ class QWMH_L1():
     @staticmethod
     def vector_rounding(z, L):
         # Step 1: Compute the rounded values for all elements in bv_z
-        tilde_z = np.sign(z) * np.sqrt(np.floor(z**2 * L) / L)
+        # tilde_z = np.sign(z) * np.sqrt(np.floor(z**2 * L) / L)
+        tilde_z = np.sign(z) * np.floor(np.abs(z) * L) / L
         # Step 2: Find the index i* with maximum absolute value in bv_z
         i_star = np.argmax(np.abs(z))
         # Step 3: Adjust bv_tilde_z[i*] to ensure it's a unit vector (norm = 1)
-        delta = 1 - np.linalg.norm(tilde_z)**2
-        tilde_z[i_star] = np.sign(z[i_star]) * np.sqrt(tilde_z[i_star]**2 + delta)
+        # delta = 1 - np.linalg.norm(tilde_z)**2
+        delta = 1 - np.linalg.norm(tilde_z, ord=1)
+        # tilde_z[i_star] = np.sign(z[i_star]) * np.sqrt(tilde_z[i_star]**2 + delta)
+        tilde_z[i_star] = np.sign(z[i_star]) * (tilde_z[i_star] + delta)
         return tilde_z
-    
-    # @staticmethod
-    # @njit(parallel=True)
-    # def sketch_geometric_numba(vec_norm_nonzeroIndex, vec_norm2_repeat, sample_size, seed):
-    #     vec_hash = np.empty((vec_norm_nonzeroIndex.shape[0], sample_size), dtype=np.float64)
-    #     vec_sign = np.empty((vec_norm_nonzeroIndex.shape[0], sample_size), dtype=np.float64)
-        
-    #     for ind_ind in prange(vec_norm_nonzeroIndex.shape[0]):
-    #         ind = vec_norm_nonzeroIndex[ind_ind]
-    #         k = ind + 1
-    #         m_range = vec_norm2_repeat[ind]
-    #         for j in range(sample_size):
-    #             random.seed(k * (1000000) + seed * sample_size + j)
-    #             m = 1.0
-    #             h_ = 1.0
-    #             while m <= m_range:
-    #                 u = random.uniform(0.0, 1.0)
-    #                 h_ *= u
-    #                 v = random.uniform(0.0, 1.0)
-    #                 g = np.floor(np.log(v) / np.log(1.0 - h_))
-    #                 m = m + 1.0 + g
-    #             vec_hash[ind_ind, j] = h_
-    #             vec_sign[ind_ind, j] = np.sign(random.uniform(-1, 1))  # Changed from np.random to random for consistency
-
-    #     return vec_hash, vec_sign
 
     @staticmethod
     @njit(parallel=True)

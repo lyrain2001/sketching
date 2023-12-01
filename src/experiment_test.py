@@ -111,10 +111,9 @@ if __name__ == "__main__":
         
         inner_product = vector_a.dot(vector_b)
         # print("consine: {}".format(inner_product / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))))
-        # print("inner_product: {}".format(inner_product))
         inner_product_sketch = sketch_a.inner_product(sketch_b)
-        # print("inner_product: {}".format(inner_product))
-        # print("inner_product_sketch: {}".format(inner_product_sketch))
+        print("inner_product: {}".format(inner_product))
+        print("inner_product_sketch: {}".format(inner_product_sketch))
         
         # error = np.abs(inner_product - inner_product_sketch) / inner_product
         error = np.abs(inner_product - inner_product_sketch) / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))

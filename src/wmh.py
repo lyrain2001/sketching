@@ -17,6 +17,7 @@ class WMHSketch():
     def inner_product(self, other: 'WMHSketch') -> float:
         mean_min = np.mean([min(hA, hB) for hA, hB in zip(self.sk_hashes, other.sk_hashes)])
         union_size_est = self.p * (1 / mean_min - 1) # p = 1/L
+        print(f"union_size_est: {union_size_est}")
         sum_m = sum([(va * vb) / min(va ** 2, vb ** 2) for ha, hb, va, vb in
                     zip(self.sk_hashes, other.sk_hashes, self.sk_values, other.sk_values) if ha == hb])
         ip_est = self.vector_l2 * other.vector_l2 * union_size_est * (sum_m/self.sketch_size)
@@ -32,6 +33,7 @@ class WMH():
     def sketch(self, vector: np.ndarray) -> WMHSketch:
         vector_l2 = np.linalg.norm(vector, ord=2)
         tilte_a = self.vector_rounding(vector/vector_l2, self.L)
+        print(f"tilte_a: {tilte_a}")
         tilte_a_nonzeroIndex = np.nonzero(tilte_a)[0]
         tilte_a_repeat = [(v**2)*self.L for v in tilte_a]
         tilte_a_repeat_numba = List(tilte_a_repeat)

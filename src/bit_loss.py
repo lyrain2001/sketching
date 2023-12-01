@@ -8,14 +8,12 @@ try:
     from .simHash import *
     from .prioritySampling import *
     from .jl import *
-    from .unweightedPrioritySampling import *
     from .ups_q import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
-    from unweightedPrioritySampling import *
     from ups_q import *
 
     
