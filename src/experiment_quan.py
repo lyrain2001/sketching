@@ -7,12 +7,12 @@ try:
     from .data_generator import *
     from .simHash import *
     from .simHashFunction import *
-    from .ups_sh import *
+    from .ups_q import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from simHashFunction import *
-    from ups_sh import *
+    from ups_q import *
     
 
 def args_from_parser():

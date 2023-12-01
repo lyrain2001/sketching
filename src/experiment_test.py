@@ -8,15 +8,17 @@ try:
     from .simHash import *
     from .prioritySampling import *
     from .jl import *
-    from .ups_sh import *
+    from .ups_q import *
     from .wmh import *
+    from .wmh_q import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
-    from ups_sh import *
+    from ups_q import *
     from wmh import *
+    from wmh_q import *
     
 
 def args_from_parser():
@@ -62,7 +64,7 @@ if __name__ == "__main__":
         # generate condition for different sketch methods
         if sketch_methods == "SimHash":
             if storage_size != 0:
-                sketch_size = int((storage_size * 64 - 128) / 2)
+                sketch_size = int(storage_size * 32 - 64)
             sh = SimHash(sketch_size, vector_size)
             sketch_a = sh.sketch(vector_a)
             sketch_b = sh.sketch(vector_b)
@@ -98,6 +100,12 @@ if __name__ == "__main__":
             upssh = UnweightedPrioritySamplingSimHash(sketch_size, vector_size)
             sketch_a = upssh.sketch(vector_a)
             sketch_b = upssh.sketch(vector_b)
+        elif sketch_methods == "QuantizedWeightedMinHash":
+            if storage_size != 0:
+                sketch_size = int((storage_size * 32 - 64) / 3)
+            wmh_q = QWMH_L1(sketch_size, seed)
+            sketch_a = wmh_q.sketch(vector_a)
+            sketch_b = wmh_q.sketch(vector_b)
         else:
             raise ValueError("sketch_methods is not valid")
         

@@ -9,14 +9,14 @@ try:
     from .prioritySampling import *
     from .jl import *
     from .unweightedPrioritySampling import *
-    from .upsSimHash import *
+    from .ups_q import *
 except ImportError:
     from data_generator import *
     from simHash import *
     from prioritySampling import *
     from jl import *
     from unweightedPrioritySampling import *
-    from upsSimHash import *
+    from ups_q import *
 
     
 # def calculate_bit_loss(ps, sh):
