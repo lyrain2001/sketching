@@ -33,11 +33,15 @@ class WMH():
     def sketch(self, vector: np.ndarray) -> WMHSketch:
         vector_l2 = np.linalg.norm(vector, ord=2)
         tilte_a = self.vector_rounding(vector/vector_l2, self.L)
-        print(f"tilte_a: {tilte_a}")
         tilte_a_nonzeroIndex = np.nonzero(tilte_a)[0]
         tilte_a_repeat = [(v**2)*self.L for v in tilte_a]
+        
+        ind = tilte_a_nonzeroIndex[0]
+        print(f"tilte_a_repeat[ind]: {tilte_a_repeat[ind]}")
+        
         tilte_a_repeat_numba = List(tilte_a_repeat)
         all_hashes = self.sketch_geometric_numba(tilte_a_nonzeroIndex, tilte_a_repeat_numba, self.sketch_size, self.seed)
+        # print(f"all_hashes: {all_hashes}")
         
         all_min_indices = np.argmin(all_hashes, axis=0)
         all_min_nonzeroIndex = tilte_a_nonzeroIndex[all_min_indices]
