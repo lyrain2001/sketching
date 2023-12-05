@@ -16,7 +16,7 @@ except ImportError:
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", default=0.1,
+    parser.add_argument("-overlap", "--overlap", default=1,
         help="overlap ratio of 2 vectors", type=float)
     parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)

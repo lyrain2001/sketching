@@ -37,6 +37,8 @@ class WMH():
         
         tilte_a_repeat_numba = List(tilte_a_repeat)
         all_hashes = self.sketch_geometric_numba(tilte_a_nonzeroIndex, tilte_a_repeat_numba, self.sketch_size, self.seed)
+        # print shape of all_hashes
+        print(all_hashes.shape)
         
         all_min_indices = np.argmin(all_hashes, axis=0)
         all_min_nonzeroIndex = tilte_a_nonzeroIndex[all_min_indices]
@@ -49,7 +51,6 @@ class WMH():
     def vector_rounding(z, L):
         # Step 1: Compute the rounded values for all elements in bv_z
         tilde_z = np.sign(z) * np.sqrt(np.floor(z**2 * L) / L)
-        print(f"tilde_z: {tilde_z[np.nonzero(tilde_z)]}")
         # Step 2: Find the index i* with maximum absolute value in bv_z
         i_star = np.argmax(np.abs(z))
         # Step 3: Adjust bv_tilde_z[i*] to ensure it's a unit vector (norm = 1)

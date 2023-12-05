@@ -23,7 +23,7 @@ except ImportError:
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", default=0.1,
+    parser.add_argument("-overlap", "--overlap", default=1,
         help="overlap ratio of 2 vectors", type=float)
     parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)
@@ -31,9 +31,9 @@ def args_from_parser():
         help="zero ratio of the vector", type=float)
     parser.add_argument("-sketch_methods", "--sketch_methods",
         help="sketch methods to run", type=str)
-    parser.add_argument("-vector_size", "--vector_size", default=10000,
+    parser.add_argument("-vector_size", "--vector_size", default=1000,
         help="original vector size", type=int)
-    parser.add_argument("-sketch_size", "--sketch_size", default=1000,
+    parser.add_argument("-sketch_size", "--sketch_size", default=10000,
         help="expected sketch size", type=int)
     parser.add_argument("-storage_size", "--storage_size", default=0,
         help="expected storage size", type=int)
@@ -52,6 +52,8 @@ if __name__ == "__main__":
     overlap_ratio, outlier_ratio, zeroes_ratio, sketch_methods, vector_size, sketch_size, storage_size, iterations, log, log_name = args.overlap, args.outlier, args.zeroes, args.sketch_methods, args.vector_size, args.sketch_size, args.storage_size, args.iterations, args.log, args.log_name
     # Initialize the data generator
     errors = []
+    exact = []
+    est = []
     time_start = time.time()
     for i in range(iterations):
         generator = DataGenerator(vector_size, zeroes_ratio, overlap_ratio, outlier_ratio)
@@ -104,14 +106,24 @@ if __name__ == "__main__":
             if storage_size != 0:
                 sketch_size = int((storage_size * 32 - 64) / 3)
             wmh_q = QWMH_L1(sketch_size, seed)
+            
+            # result = []
+            # for i in range(100):
+            #     sketch_a = wmh_q.sketch(vector_a)
+            #     sketch_b = wmh_q.sketch(vector_b)
+            #     result.append(sketch_a.inner_product(sketch_b))
             sketch_a = wmh_q.sketch(vector_a)
             sketch_b = wmh_q.sketch(vector_b)
+            
+            
         else:
             raise ValueError("sketch_methods is not valid")
         
         inner_product = vector_a.dot(vector_b)
         # print("consine: {}".format(inner_product / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))))
+        
         inner_product_sketch = sketch_a.inner_product(sketch_b)
+        # inner_product_sketch = np.mean(result)
         print("inner_product: {}".format(inner_product))
         print("inner_product_sketch: {}".format(inner_product_sketch))
         
@@ -119,6 +131,9 @@ if __name__ == "__main__":
         error = np.abs(inner_product - inner_product_sketch) / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))
         
         errors.append(error)
+        # exact.append(inner_product)
+        # est.append(inner_product_sketch)
+        print("Relative error: {}".format(error))
         # Print the results
         # print("Inner product of the vector with itself: {}".format(inner_product))
         # print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
@@ -156,6 +171,13 @@ if __name__ == "__main__":
         #     csvwriter.writeheader()
         #     csvwriter.writerows([{"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start}])
     
+    # store error list in a file, each line is an error
+    # with open("error.txt", "a") as f:
+    #     for i in range(len(errors)):
+    #         f.write(str(exact[i]) + "\t")
+    #         f.write(str(est[i]) + "\t")
+    #         f.write(str(errors[i]) + "\n")
+        
     print("Average relative error: {}".format(np.mean(errors)))
     print("Standard deviation of relative error: {}".format(np.std(errors)))
     print("Time elapsed: {}".format(it_time))
