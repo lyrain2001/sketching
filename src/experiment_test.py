@@ -23,7 +23,7 @@ except ImportError:
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", default=1,
+    parser.add_argument("-overlap", "--overlap", default=0.5,
         help="overlap ratio of 2 vectors", type=float)
     parser.add_argument("-outlier", "--outlier", default=0,
         help="outlier ratio of the vector", type=float)
@@ -63,6 +63,7 @@ if __name__ == "__main__":
         seed = int((time.time() * 1000) % 4294967295)  # '4294967295' is the maximum value for a 32-bit integer.
         # print("vector_a:", vector_a)
         # print("vector_b:", vector_b)
+
         # generate condition for different sketch methods
         if sketch_methods == "SimHash":
             if storage_size != 0:
@@ -106,7 +107,6 @@ if __name__ == "__main__":
             if storage_size != 0:
                 sketch_size = int((storage_size * 32 - 64) / 3)
             wmh_q = QWMH_L1(sketch_size, seed)
-            
             # result = []
             # for i in range(100):
             #     sketch_a = wmh_q.sketch(vector_a)
@@ -114,8 +114,6 @@ if __name__ == "__main__":
             #     result.append(sketch_a.inner_product(sketch_b))
             sketch_a = wmh_q.sketch(vector_a)
             sketch_b = wmh_q.sketch(vector_b)
-            
-            
         else:
             raise ValueError("sketch_methods is not valid")
         
@@ -127,14 +125,12 @@ if __name__ == "__main__":
         print("inner_product: {}".format(inner_product))
         print("inner_product_sketch: {}".format(inner_product_sketch))
         
-        # error = np.abs(inner_product - inner_product_sketch) / inner_product
         error = np.abs(inner_product - inner_product_sketch) / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))
         
         errors.append(error)
         # exact.append(inner_product)
         # est.append(inner_product_sketch)
         print("Relative error: {}".format(error))
-        # Print the results
         # print("Inner product of the vector with itself: {}".format(inner_product))
         # print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
         # print("Relative error: {}".format(np.abs(inner_product - inner_product_sketch) / inner_product))
@@ -142,35 +138,11 @@ if __name__ == "__main__":
     it_time = (time_end - time_start) / iterations
     
     if log:
-        # log name = sketch method + vector size + sketch size + overlap ratio + outlier ratio + zero ratio
-        # log_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(sketch_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".log"
-        # with open(log_name, "a") as f:
-        #     # f only writes string
-        #     # change np.mean(errors) to str(np.mean(errors))
-        #     f.write(str(np.mean(errors)) + "\n")
-        #     f.write(str(np.std(errors)) + "\n")
-        #     f.write(str(time_end - time_start) + "\n")
-        
-        # Writing to csv file 
-        # csv_name = "./results/sketch_" + sketch_methods + ".csv"
-        # csv_name = "./results/" + sketch_methods + "/" + str(vector_size) + "_" + str(overlap_ratio) + "_" + str(outlier_ratio) + "_" + str(zeroes_ratio) + ".csv"
-        # csv_name = "./results/storage_olp0.01_" + sketch_methods + ".csv"
-        # csv_name = log_name + sketch_methods + ".csv"
-        
-        # with open(csv_name, 'a', newline='') as csvfile:
-        #     csvwriter = csv.DictWriter(csvfile, fieldnames=['sketch_size', 'mean', 'std', 'time'])
-        #     csvwriter.writerow({"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
             
         with open(log_name, 'a', newline='') as csvfile:
             csvwriter = csv.DictWriter(csvfile, fieldnames=['storage_size', 'mean', 'std', 'time'])
             csvwriter.writerow({"storage_size": storage_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
         
-        # with open(csv_name, 'w', newline='') as csvfile:
-        #     fieldnames = ['sketch_size', 'mean', 'std', 'time']
-        #     csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        #     csvwriter.writeheader()
-        #     csvwriter.writerows([{"sketch_size": sketch_size, "mean": np.mean(errors), "std": np.std(errors), "time": time_end - time_start}])
-    
     # store error list in a file, each line is an error
     # with open("error.txt", "a") as f:
     #     for i in range(len(errors)):

@@ -25,7 +25,6 @@ class QWMHSketch():
         # TODO
         # union_size_est = self.p * (1 / mean)  # p = 1/L
         union_size_est = 1 / mean
-        
         # print(f"union_size_est: {union_size_est}")
         
         r_sum = np.sum(r * self.sk_hashes * other.sk_hashes)
@@ -89,7 +88,7 @@ class QWMH_L1():
         
         return QWMHSketch(sk_hashes, sk_values, sk_signs, vector_l1, self.sketch_size, self.p)
     
-    
+    # l1
     @staticmethod
     def vector_rounding(z, L):
         # Step 1: Compute the rounded values for all elements in bv_z
@@ -101,6 +100,7 @@ class QWMH_L1():
         tilde_z[i_star] = np.sign(z[i_star]) * (tilde_z[i_star] + delta)
         return tilde_z
     
+    # l2
     # @staticmethod
     # def vector_rounding(z, L):
     #     # Step 1: Compute the rounded values for all elements in bv_z
