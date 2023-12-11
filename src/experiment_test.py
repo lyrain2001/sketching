@@ -11,6 +11,7 @@ try:
     from .ups_q import *
     from .wmh import *
     from .wmh_q import *
+    from .nsh import *
 except ImportError:
     from data_generator import *
     from simHash import *
@@ -19,13 +20,14 @@ except ImportError:
     from ups_q import *
     from wmh import *
     from wmh_q import *
+    from nsh import *
     
 
 def args_from_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-overlap", "--overlap", default=0.5,
+    parser.add_argument("-overlap", "--overlap", default=0.1,
         help="overlap ratio of 2 vectors", type=float)
-    parser.add_argument("-outlier", "--outlier", default=0,
+    parser.add_argument("-outlier", "--outlier", default=0.01,
         help="outlier ratio of the vector", type=float)
     parser.add_argument("-zeroes", "--zeroes", default=0.8,
         help="zero ratio of the vector", type=float)
@@ -68,7 +70,7 @@ if __name__ == "__main__":
         if sketch_methods == "SimHash":
             if storage_size != 0:
                 sketch_size = int(storage_size * 32 - 64)
-            sh = SimHash(sketch_size, vector_size)
+            sh = SimHash(sketch_size, vector_size, seed)
             sketch_a = sh.sketch(vector_a)
             sketch_b = sh.sketch(vector_b)
         elif sketch_methods == "PrioritySampling":
@@ -100,7 +102,8 @@ if __name__ == "__main__":
         elif sketch_methods == "UnweightedPrioritySamplingSimHash":
             if storage_size != 0:
                 sketch_size = int((storage_size * 64 / 2 - 128)/ (32 + 1))
-            upssh = UnweightedPrioritySamplingSimHash(sketch_size, vector_size)
+            non_zero_index = np.union1d(np.nonzero(vector_a), np.nonzero(vector_b))
+            upssh = UnweightedPrioritySamplingSimHash(sketch_size, vector_size, non_zero_index)
             sketch_a = upssh.sketch(vector_a)
             sketch_b = upssh.sketch(vector_b)
         elif sketch_methods == "QuantizedWeightedMinHash":
@@ -114,6 +117,12 @@ if __name__ == "__main__":
             #     result.append(sketch_a.inner_product(sketch_b))
             sketch_a = wmh_q.sketch(vector_a)
             sketch_b = wmh_q.sketch(vector_b)
+        elif sketch_methods == "NormalizedSimHash":
+            if storage_size != 0:
+                sketch_size = int(storage_size * 32 - 64)
+            sh = NormalizedSimHash(sketch_size, vector_size, seed)
+            sketch_a = sh.sketch(vector_a)
+            sketch_b = sh.sketch(vector_b)
         else:
             raise ValueError("sketch_methods is not valid")
         
@@ -128,8 +137,8 @@ if __name__ == "__main__":
         error = np.abs(inner_product - inner_product_sketch) / (np.linalg.norm(vector_a) * np.linalg.norm(vector_b))
         
         errors.append(error)
-        # exact.append(inner_product)
-        # est.append(inner_product_sketch)
+        exact.append(inner_product)
+        est.append(inner_product_sketch)
         print("Relative error: {}".format(error))
         # print("Inner product of the vector with itself: {}".format(inner_product))
         # print("Inner product of the vector with itself using the {} sketch: {}".format(sketch_methods, inner_product_sketch))
@@ -144,11 +153,15 @@ if __name__ == "__main__":
             csvwriter.writerow({"storage_size": storage_size, "mean": np.mean(errors), "std": np.std(errors), "time": it_time})
         
     # store error list in a file, each line is an error
-    # with open("error.txt", "a") as f:
-    #     for i in range(len(errors)):
-    #         f.write(str(exact[i]) + "\t")
-    #         f.write(str(est[i]) + "\t")
-    #         f.write(str(errors[i]) + "\n")
+    with open("error.txt", "a") as f:
+        for i in range(len(errors)):
+            f.write(str(exact[i]) + "\t")
+            f.write(str(est[i]) + "\t")
+            f.write(str(errors[i]) + "\n")
+        f.write("\n")
+        f.write("Average relative error: {}\n".format(np.mean(errors)))
+        f.write("Standard deviation of relative error: {}\n".format(np.std(errors)))
+        f.write("Average time elapsed: {}\n".format(it_time))
         
     print("Average relative error: {}".format(np.mean(errors)))
     print("Standard deviation of relative error: {}".format(np.std(errors)))

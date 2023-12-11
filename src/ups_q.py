@@ -7,6 +7,20 @@ import time
 # Unweighted Priority Sampling SimHash Sketch
 #
 
+class HashFuncGenerator:
+    def __init__(self, non_zero_index, sketch_size, vector_size):
+        self.non_zero_index = non_zero_index
+        self.sketch_size = sketch_size
+        self.vector_size = vector_size
+    
+    def generate(self):
+        hash_func = np.zeros((self.vector_size, self.sketch_size))
+        for index in self.non_zero_index:
+            hash_func[index] = np.around(np.random.randn(self.sketch_size), 2)
+        # print(f"hash_func: {hash_func}")
+        return hash_func.T
+
+
 class UnweightedSimRandomHasher:
     def __init__(self, n):
         self.hashed_values = [0] * (n + 1)  # Initialize list with n+1 zeros
@@ -61,11 +75,12 @@ class UPSSHSketch():
         return math.cos(math.pi * difference / len(self.sk_values)) * self.norm * other.norm / min(1, self.tau, other.tau)
 
 class UnweightedPrioritySamplingSimHash():
-    def __init__(self, sketch_size, vector_size) -> None:
+    def __init__(self, sketch_size, vector_size, non_zero_index) -> None:
         self.sketch_size: int = sketch_size  # Number of rows in the sketch matrix
         self.vector_size: int = vector_size
         self.hashed_values: np.ndarray = UnweightedSimRandomHasher(vector_size).get_hashed_values()
         self.phi = UnweightedSimNormalMatrixGenerator(sketch_size, sketch_size).generate()
+        self.hash_func = HashFuncGenerator(non_zero_index, self.sketch_size, self.vector_size).generate()
 
     def sketch(self, vector: np.ndarray) -> UPSSHSketch:
         rank = [self.hashed_values[i] for i in range(len(vector))]
@@ -84,7 +99,8 @@ class UnweightedPrioritySamplingSimHash():
                 sk_values.append(vector[i])  
         
         norm = np.linalg.norm(sk_values)
-        sk_values = np.sign(self.phi.dot(sk_values))
+        
+        sk_values = np.sign(self.hash_func.dot(sk_values))
         
         return UPSSHSketch(sk_indices, sk_values, norm, tau)
 

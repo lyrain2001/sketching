@@ -24,7 +24,7 @@ class DataGenerator:
         
         if with_outliers:
             # outlier part is a list of random values between 6 and 9
-            outlier_part = np.random.uniform(6, 9, self.outlier_count)
+            outlier_part = np.random.uniform(9, 10, self.outlier_count)
             vector = np.concatenate([normal_part, zero_part, outlier_part])
         else:
             vector = np.concatenate([normal_part, zero_part])

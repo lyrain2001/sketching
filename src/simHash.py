@@ -8,11 +8,13 @@ import time
 #
 
 class NormalMatrixGenerator:
-    def __init__(self, rows, cols):
+    def __init__(self, rows, cols, seed):
         self.rows = rows
         self.cols = cols
+        self.seed = seed
     
     def generate(self):
+        np.random.seed(self.seed)
         return np.random.randn(self.rows, self.cols)
 
 
@@ -37,11 +39,11 @@ class SHSketch():
         return math.cos(math.pi * difference / len(self.sk_values)) * self.norm * other.norm
 
 class SimHash():
-    def __init__(self, sketch_size, vector_size) -> None:
+    def __init__(self, sketch_size, vector_size, seed) -> None:
         self.sketch_size: int = sketch_size  # Number of rows in the sketch matrix
         self.vector_size: int = vector_size
         # really time consuming
-        self.phi = NormalMatrixGenerator(sketch_size, vector_size).generate()
+        self.phi = NormalMatrixGenerator(sketch_size, vector_size, seed).generate()
 
     def sketch(self, vector: np.ndarray) -> SHSketch:
         sk_values = np.sign(self.phi.dot(vector))
