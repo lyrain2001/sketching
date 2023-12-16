@@ -6,9 +6,11 @@ import csv
 try:
     from .binary_generator import *
     from .mh_q import *
+    from .simHash import *
 except ImportError:
     from binary_generator import *
     from mh_q import *
+    from simHash import *
     
 
 def args_from_parser():
@@ -46,24 +48,21 @@ if __name__ == "__main__":
     for i in range(iterations):
         generator = BinaryDataGenerator(vector_size, zeroes_ratio, overlap_ratio)
         vector_a, vector_b = generator.generate_pair()
-        # np.savetxt('vector_a.txt', vector_a, fmt='%f')
-        # np.savetxt('vector_b.txt', vector_b, fmt='%f')
+        # print("Union size: {}".format(len(set(np.nonzero(vector_a)[0]).union(set(np.nonzero(vector_b)[0])))))
+        
+
         seed = int((time.time() * 1000) % 4294967295)  # '4294967295' is the maximum value for a 32-bit integer.
-        # print("vector_a:", vector_a)
-        # print("vector_b:", vector_b)
-        print("iteration: {}".format(i))
+        # print("iteration: {}".format(i))
         # generate condition for different sketch methods
         if sketch_methods == "QuantizedMinHash":
             sh = QMH(sketch_size, seed)
             sketch_a = sh.sketch(vector_a)
             sketch_b = sh.sketch(vector_b)
             print("sketch created")
-        # elif sketch_methods == "SimHash":
-        #     if storage_size != 0:
-        #         sketch_size = int(storage_size * 32 - 64)
-        #     sh = SimHash(sketch_size, vector_size, seed)
-        #     sketch_a = sh.sketch(vector_a)
-        #     sketch_b = sh.sketch(vector_b)
+        elif sketch_methods == "SimHash":
+            sh = SimHash(sketch_size, vector_size, seed)
+            sketch_a = sh.sketch(vector_a)
+            sketch_b = sh.sketch(vector_b)
         else:
             raise ValueError("sketch_methods is not valid")
         
