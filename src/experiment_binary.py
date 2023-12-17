@@ -2,16 +2,16 @@ import argparse
 import numpy as np
 import csv
 
-try:
-    from .binary_generator import *
-    from .mh_q import *
-    from .simHash import *
-    from .prioritySampling import *
-except ImportError:
-    from binary_generator import *
-    from mh_q import *
-    from simHash import *
-    from prioritySampling import *
+# try:
+#     from .binary_generator import *
+#     from .mh_q import *
+#     from .simHash import *
+#     from .prioritySampling import *
+# except ImportError:
+from binary_generator import *
+from mh_q import *
+from simHash import *
+from prioritySampling import *
     
 def args_from_parser():
     parser = argparse.ArgumentParser()

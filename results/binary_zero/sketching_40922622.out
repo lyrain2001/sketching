@@ -1,0 +1,102 @@
+/scratch/yl6624/sketching
+Running: python src/experiment_binary.py  -overlap 0.01 -zeroes 0.5 -iterations 100 -sketch_size 1000 -log true -log_name ./results/binary_zero/0.01_
+sketch_size:  1000
+sh_error:  0.03551430517384753 time:  0.3247544765472412
+qmh_error:  0.03613534894296015 time:  0.1515486240386963
+ups_error:  0.029570174053663446 time:  0.008284807205200195
+Running: python src/experiment_binary.py  -overlap 0.01 -zeroes 0.5 -iterations 100 -sketch_size 2000 -log true -log_name ./results/binary_zero/0.01_
+sketch_size:  2000
+sh_error:  0.024866246367795834 time:  0.6519546508789062
+qmh_error:  0.026325162747077725 time:  0.37634778022766113
+ups_error:  0.021035195755760613 time:  0.009641885757446289
+Running: python src/experiment_binary.py  -overlap 0.01 -zeroes 0.5 -iterations 100 -sketch_size 3000 -log true -log_name ./results/binary_zero/0.01_
+sketch_size:  3000
+sh_error:  0.019155266741462226 time:  0.9762346744537354
+qmh_error:  0.020835577381268625 time:  0.5601305961608887
+ups_error:  0.015504547927569471 time:  0.011180400848388672
+Running: python src/experiment_binary.py  -overlap 0.01 -zeroes 0.5 -iterations 100 -sketch_size 4000 -log true -log_name ./results/binary_zero/0.01_
+sketch_size:  4000
+sh_error:  0.020371189282277234 time:  1.30509614944458
+qmh_error:  0.018766089946539395 time:  0.7366209030151367
+ups_error:  0.014091996007722554 time:  0.01261591911315918
+Running: python src/experiment_binary.py  -overlap 0.01 -zeroes 0.5 -iterations 100 -sketch_size 5000 -log true -log_name ./results/binary_zero/0.01_
+sketch_size:  5000
+sh_error:  0.015125880709977531 time:  1.6296186447143555
+qmh_error:  0.017217352586791225 time:  0.9316709041595459
+ups_error:  0.009794021909750315 time:  0.014096975326538086
+Running: python src/experiment_binary.py  -overlap 0.1 -zeroes 0.5 -iterations 100 -sketch_size 1000 -log true -log_name ./results/binary_zero/0.1_
+sketch_size:  1000
+sh_error:  0.036582712104919396 time:  0.3266427516937256
+qmh_error:  0.03338628282141439 time:  0.1575615406036377
+ups_error:  0.038246273527761436 time:  0.00820159912109375
+Running: python src/experiment_binary.py  -overlap 0.1 -zeroes 0.5 -iterations 100 -sketch_size 2000 -log true -log_name ./results/binary_zero/0.1_
+sketch_size:  2000
+sh_error:  0.023919130905525422 time:  0.6530439853668213
+qmh_error:  0.0272056522780181 time:  0.3831002712249756
+ups_error:  0.01996050863914077 time:  0.009621143341064453
+Running: python src/experiment_binary.py  -overlap 0.1 -zeroes 0.5 -iterations 100 -sketch_size 3000 -log true -log_name ./results/binary_zero/0.1_
+sketch_size:  3000
+sh_error:  0.022308466110423142 time:  0.9772703647613525
+qmh_error:  0.018866969513419162 time:  0.5704619884490967
+ups_error:  0.01829567335377917 time:  0.011301279067993164
+Running: python src/experiment_binary.py  -overlap 0.1 -zeroes 0.5 -iterations 100 -sketch_size 4000 -log true -log_name ./results/binary_zero/0.1_
+sketch_size:  4000
+sh_error:  0.02028984415737244 time:  1.3052635192871094
+qmh_error:  0.014754449112144175 time:  0.7408702373504639
+ups_error:  0.017198963943356838 time:  0.012445211410522461
+Running: python src/experiment_binary.py  -overlap 0.1 -zeroes 0.5 -iterations 100 -sketch_size 5000 -log true -log_name ./results/binary_zero/0.1_
+sketch_size:  5000
+sh_error:  0.015236028509508413 time:  1.6293623447418213
+qmh_error:  0.0154477160918601 time:  0.9398117065429688
+ups_error:  0.012966591225924386 time:  0.014194011688232422
+Running: python src/experiment_binary.py  -overlap 0.5 -zeroes 0.5 -iterations 100 -sketch_size 1000 -log true -log_name ./results/binary_zero/0.5_
+sketch_size:  1000
+sh_error:  0.02443234164790601 time:  0.32607078552246094
+qmh_error:  0.019669521277661993 time:  0.15675115585327148
+ups_error:  0.04458289342963899 time:  0.008225440979003906
+Running: python src/experiment_binary.py  -overlap 0.5 -zeroes 0.5 -iterations 100 -sketch_size 2000 -log true -log_name ./results/binary_zero/0.5_
+sketch_size:  2000
+sh_error:  0.01880663093780295 time:  0.6515460014343262
+qmh_error:  0.014251673515475011 time:  0.37732481956481934
+ups_error:  0.03155556779612048 time:  0.009565353393554688
+Running: python src/experiment_binary.py  -overlap 0.5 -zeroes 0.5 -iterations 100 -sketch_size 3000 -log true -log_name ./results/binary_zero/0.5_
+sketch_size:  3000
+sh_error:  0.017678158921248514 time:  0.977179765701294
+qmh_error:  0.01219494065036689 time:  0.5558867454528809
+ups_error:  0.025379108565137348 time:  0.011008739471435547
+Running: python src/experiment_binary.py  -overlap 0.5 -zeroes 0.5 -iterations 100 -sketch_size 4000 -log true -log_name ./results/binary_zero/0.5_
+sketch_size:  4000
+sh_error:  0.014457260080250521 time:  1.3041157722473145
+qmh_error:  0.010864021463748793 time:  0.7387065887451172
+ups_error:  0.021381124265190916 time:  0.012674331665039062
+Running: python src/experiment_binary.py  -overlap 0.5 -zeroes 0.5 -iterations 100 -sketch_size 5000 -log true -log_name ./results/binary_zero/0.5_
+sketch_size:  5000
+sh_error:  0.011763632563025721 time:  1.627619981765747
+qmh_error:  0.008909197913870438 time:  0.9187967777252197
+ups_error:  0.016763309219996456 time:  0.014170646667480469
+Running: python src/experiment_binary.py  -overlap 1 -zeroes 0.5 -iterations 100 -sketch_size 1000 -log true -log_name ./results/binary_zero/1_
+sketch_size:  1000
+sh_error:  6.710459077910691e-17 time:  0.32604503631591797
+qmh_error:  0.0 time:  0.1570436954498291
+ups_error:  0.053958377594492735 time:  0.008251190185546875
+Running: python src/experiment_binary.py  -overlap 1 -zeroes 0.5 -iterations 100 -sketch_size 2000 -log true -log_name ./results/binary_zero/1_
+sketch_size:  2000
+sh_error:  8.367659472043321e-17 time:  0.6523294448852539
+qmh_error:  0.0 time:  0.37095093727111816
+ups_error:  0.03889223534502196 time:  0.009625673294067383
+Running: python src/experiment_binary.py  -overlap 1 -zeroes 0.5 -iterations 100 -sketch_size 3000 -log true -log_name ./results/binary_zero/1_
+sketch_size:  3000
+sh_error:  6.889047923058149e-17 time:  0.9774057865142822
+qmh_error:  0.0 time:  0.5638372898101807
+ups_error:  0.032427798223629456 time:  0.011231184005737305
+Running: python src/experiment_binary.py  -overlap 1 -zeroes 0.5 -iterations 100 -sketch_size 4000 -log true -log_name ./results/binary_zero/1_
+sketch_size:  4000
+sh_error:  7.442500484956273e-17 time:  1.2990942001342773
+qmh_error:  0.0 time:  0.7314491271972656
+ups_error:  0.027141413509861385 time:  0.012535333633422852
+Running: python src/experiment_binary.py  -overlap 1 -zeroes 0.5 -iterations 100 -sketch_size 5000 -log true -log_name ./results/binary_zero/1_
+sketch_size:  5000
+sh_error:  5.822616731813539e-17 time:  1.6321990489959717
+qmh_error:  0.0 time:  0.9259440898895264
+ups_error:  0.02420146242249455 time:  0.014426469802856445
+All tasks are done!
